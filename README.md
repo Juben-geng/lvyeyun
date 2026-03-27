@@ -1,94 +1,133 @@
-# 🦞 OpenClaw · 智途AI 后端
+# 🦞 OpenClaw · 智途AI
 
-> 旅游SaaS · 七大Agent · Node.js + Supabase + Vercel
+> 旅游SaaS · 七大Agent · 前端展示 + Node.js后端 + Supabase + Vercel
 
-## 快速启动（本地）
+---
+
+## 📄 前端页面
+
+| 文件 | 说明 |
+|------|------|
+| `index.html` | 🏠 官网首页 |
+| `features.html` | ✨ 功能特性介绍 |
+| `xiaoxin_soul.html` | ❤️ 小心·情感伴侣说明书 |
+| `fullstack.html` | 🛠️ 全栈技术架构说明 |
+
+直接用浏览器打开即可预览，或部署到 Vercel 后通过公网访问。
+
+---
+
+## 🤖 七大Agent后端
+
+| Agent | 名字 | 职责 |
+|-------|------|------|
+| 🦞 总指挥 | 龙虾 | 意图识别 + 智能路由 |
+| 🍊 需求采集 | 小橙 | 采集旅游需求，零漏项 |
+| 🗺️ 行程规划 | 小蓝 | 3分钟生成行程初稿 |
+| 💰 比价报价 | 小金 | 自动比价 + 利润计算 |
+| 🌟 售后管家 | 小暖 | 出行提醒 + 售后服务 |
+| ❤️ 情感伴侣 | 小心 | 一对一终身客户关系 |
+| 📋 运营官 | 小绿 | 运营数据汇总 |
+
+---
+
+## 🚀 快速启动（本地）
 
 ```bash
 # 1. 安装依赖
 npm install
 
 # 2. 配置环境变量
-cp .env.example .env
-# 编辑 .env 填入 LLM_API_KEY、SUPABASE_URL、SUPABASE_SERVICE_KEY
+copy .env.example .env
+# 编辑 .env 填入你的 API Key
 
-# 3. 启动
+# 3. 启动服务
 npm start
-# → http://localhost:3000
+# 服务运行在 http://localhost:3000
 ```
 
-## API 接口
+---
+
+## 🗄️ 数据库（Supabase）
+
+1. 登录 [supabase.com](https://supabase.com) 新建项目
+2. 左侧 **SQL Editor** → 粘贴 `supabase_schema.sql` 全部内容 → 点 **Run**
+3. 建好6张表：客户档案、会话记录、订单、行程、供应商、运营日报
+
+---
+
+## ⚙️ 环境变量
+
+```env
+# AI 大模型（支持 OpenAI / DeepSeek / 硅基流动）
+LLM_API_KEY=你的API Key
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL=gpt-4o-mini
+
+# Supabase
+SUPABASE_URL=https://xxx.supabase.co
+SUPABASE_SERVICE_KEY=your-service-role-key
+
+PORT=3000
+```
+
+---
+
+## 🌐 API 接口
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
 | GET | `/status` | 健康检查 |
-| GET | `/agents` | 查看所有Agent |
-| POST | `/chat` | 主对话（龙虾自动路由） |
+| GET | `/agents` | 获取所有Agent列表 |
+| POST | `/chat` | 主对话入口（龙虾自动路由） |
 | POST | `/agent/:name` | 直接呼叫指定Agent |
-| DELETE | `/session/:id` | 清除会话 |
 
-### 调用示例
-
-```bash
-# 发消息（龙虾自动判断路由给哪个Agent）
-curl -X POST http://localhost:3000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "我想去云南旅游5天"}'
-
-# 直接呼叫小心（情感伴侣）
-curl -X POST http://localhost:3000/agent/xiaoxin \
-  -H "Content-Type: application/json" \
-  -d '{"message": "今天是王阿姨的生日", "sessionId": "xxx"}'
+**对话示例：**
+```json
+POST /chat
+{
+  "message": "我想去云南，5天4晚，3大1小",
+  "sessionId": "user_001"
+}
 ```
 
 ---
 
-## 部署到 Vercel
+## ☁️ 部署到 Vercel
 
-### 第一步：建 Supabase 数据库
+1. 把代码推到 GitHub
+2. 打开 [vercel.com/new](https://vercel.com/new) → 导入 `lvyeyun` 仓库
+3. 填入环境变量（`LLM_API_KEY` / `SUPABASE_URL` / `SUPABASE_SERVICE_KEY`）
+4. 点 **Deploy** → 几分钟后上线 🚀
 
-1. 去 [supabase.com](https://supabase.com) 注册，新建项目
-2. 进入 **SQL Editor**，复制 `supabase_schema.sql` 全部内容执行
-3. 去 **Project Settings → API** 复制：
-   - `Project URL` → `SUPABASE_URL`
-   - `service_role` key → `SUPABASE_SERVICE_KEY`
+部署后访问地址：`https://lvyeyun.vercel.app`
 
-### 第二步：部署 Vercel
+---
 
-```bash
-# 方式一：命令行（需安装 vercel CLI）
-npm i -g vercel
-vercel
+## 📁 项目结构
 
-# 方式二：GitHub 自动部署（推荐）
-# 1. 把 openclaw-server 推到 GitHub
-# 2. 去 vercel.com 导入项目
-# 3. 在 Environment Variables 填入：
-#    LLM_API_KEY / SUPABASE_URL / SUPABASE_SERVICE_KEY / LLM_MODEL
-# 4. Deploy → 拿到公网地址 ✅
+```
+lvyeyun/
+├── index.html              ← 前端首页
+├── features.html           ← 功能介绍
+├── xiaoxin_soul.html       ← 小心说明书
+├── fullstack.html          ← 全栈架构
+├── index.js                ← Express 主入口
+├── router.js               ← 🦞 龙虾路由器
+├── llm.js                  ← AI 调用层
+├── db.js                   ← Supabase 数据层
+├── memory.js               ← 会话记忆
+├── vercel.json             ← Vercel 配置
+├── supabase_schema.sql     ← 建表 SQL
+└── agents/
+    ├── xiaocheng.js        ← 🍊 小橙
+    ├── xiaolan.js          ← 🗺️ 小蓝
+    ├── xiaojin.js          ← 💰 小金
+    ├── xiaonuan.js         ← 🌟 小暖
+    ├── xiaoxin.js          ← ❤️ 小心
+    └── xiaolv.js           ← 📋 小绿
 ```
 
 ---
 
-## 七大 Agent
-
-| Agent | 激活词 | 职责 |
-|-------|--------|------|
-| 🦞 龙虾 | `龙虾` | 总指挥，意图识别+分发 |
-| 🍊 小橙 | `小橙` `需求采集` | 10分钟完整采集旅游需求 |
-| 🗺️ 小蓝 | `小蓝` `制作行程` | 3分钟生成行程初稿 |
-| 💰 小金 | `小金` `比价` `报价` | 5分钟出比价报告 |
-| 🌟 小暖 | `小暖` `出行提醒` | 出行前中后全程管家 |
-| ❤️ 小心 | `小心` `生日祝福` | 情感伴侣，终身关系维护 |
-| 📋 小绿 | `小绿` `运营汇总` | 运营数据汇总与分析 |
-
-## 数据库结构
-
-```
-customers         客户档案（小心的记忆核心）
-customer_memories 客户记忆（旅行故事/偏好/情感）
-sessions          会话历史（多Agent对话）
-orders            订单
-itineraries       行程方案（小蓝生成）
-quotes            报价单（小金生成）
-```
+> 🦞 **龙虾说**：不只是效率工具，而是帮旅行社与每一个客人建立一生的关系。
