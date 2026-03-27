@@ -85,18 +85,89 @@ PORT=3000
 | POST | `/chat` | 主对话入口（龙虾自动路由） |
 | POST | `/agent/:name` | 直接呼叫指定Agent（xiaocheng / xiaolan / xiaojin / xiaonuan / xiaoxin / xiaolv）|
 
-### 调用示例
+### 🧪 七大Agent · 真实场景测试示例
 
+> 启动服务后，逐条复制执行，体验完整系统能力。
+
+---
+
+**① 🦞 龙虾总指挥 — 自动识别意图，分发给对应Agent**
 ```bash
-# 发消息（龙虾自动判断路由给哪个Agent）
+# 龙虾读懂你的需求，自动决定交给谁处理
 curl -X POST http://localhost:3000/chat \
   -H "Content-Type: application/json" \
-  -d '{"message": "我想去云南旅游5天"}'
+  -d '{"message": "我想带父母去西藏，10天，预算3万，老人有高血压", "sessionId": "s001"}'
+```
 
-# 直接呼叫小心（情感伴侣）
+---
+
+**② 🍊 小橙·需求采集 — 1问1答，零漏项采集客户需求**
+```bash
+# 小橙主动追问，把需求问清楚
+curl -X POST http://localhost:3000/agent/xiaocheng \
+  -H "Content-Type: application/json" \
+  -d '{"message": "我要订个旅游", "sessionId": "s002"}'
+```
+
+---
+
+**③ 🗺️ 小蓝·行程规划 — 3分钟出行程初稿**
+```bash
+# 给小蓝需求，直接出行程
+curl -X POST http://localhost:3000/agent/xiaolan \
+  -H "Content-Type: application/json" \
+  -d '{"message": "云南大理+丽江，5天4晚，2大1小（6岁），喜欢古镇和自然风景，不想太赶", "sessionId": "s003"}'
+```
+
+---
+
+**④ 💰 小金·比价报价 — 自动比价+利润计算**
+```bash
+# 小金出供应商比价报告
+curl -X POST http://localhost:3000/agent/xiaojin \
+  -H "Content-Type: application/json" \
+  -d '{"message": "大理丽江5天，客人预算8000/人，帮我比一下A社和B社报价，利润要留15%", "sessionId": "s004"}'
+```
+
+---
+
+**⑤ 🌟 小暖·售后管家 — 出行提醒+全程安全陪伴**
+```bash
+# 小暖发出行前提醒
+curl -X POST http://localhost:3000/agent/xiaonuan \
+  -H "Content-Type: application/json" \
+  -d '{"message": "王阿姨一家明天早上8点出发去云南，航班MU2345，提醒她注意事项", "sessionId": "s005"}'
+```
+
+---
+
+**⑥ ❤️ 小心·情感伴侣 — 一对一终身客户关系**
+```bash
+# 小心在客人生日当天发祝福
 curl -X POST http://localhost:3000/agent/xiaoxin \
   -H "Content-Type: application/json" \
-  -d '{"message": "今天是王阿姨的生日", "sessionId": "xxx"}'
+  -d '{"message": "今天是王阿姨64岁生日，她去年和我们去了西藏，特别喜欢布达拉宫，发一条走心祝福", "sessionId": "s006"}'
+```
+
+---
+
+**⑦ 📋 小绿·运营官 — 日报汇总+订单数据**
+```bash
+# 小绿生成今日运营日报
+curl -X POST http://localhost:3000/agent/xiaolv \
+  -H "Content-Type: application/json" \
+  -d '{"message": "出今天的运营汇总，新询单5个，成交2单，出行3组，有什么需要跟进的", "sessionId": "s007"}'
+```
+
+---
+
+**⑧ 系统健康检查 + 查看所有Agent状态**
+```bash
+# 检查服务是否正常
+curl http://localhost:3000/status
+
+# 列出全部7个Agent信息
+curl http://localhost:3000/agents
 ```
 
 ---
