@@ -85,13 +85,18 @@ PORT=3000
 | POST | `/chat` | 主对话入口（龙虾自动路由） |
 | POST | `/agent/:name` | 直接呼叫指定Agent（xiaocheng / xiaolan / xiaojin / xiaonuan / xiaoxin / xiaolv）|
 
-**对话示例：**
-```json
-POST /chat
-{
-  "message": "我想去云南，5天4晚，3大1小，预算2万",
-  "sessionId": "user_001"
-}
+### 调用示例
+
+```bash
+# 发消息（龙虾自动判断路由给哪个Agent）
+curl -X POST http://localhost:3000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "我想去云南旅游5天"}'
+
+# 直接呼叫小心（情感伴侣）
+curl -X POST http://localhost:3000/agent/xiaoxin \
+  -H "Content-Type: application/json" \
+  -d '{"message": "今天是王阿姨的生日", "sessionId": "xxx"}'
 ```
 
 ---
