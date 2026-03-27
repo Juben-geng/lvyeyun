@@ -38,16 +38,17 @@
 # 1. 安装依赖
 npm install
 
-# 2. 配置环境变量
+# 2. 配置环境变量（可选）
 copy .env.example .env
 # 编辑 .env，填入 LLM_API_KEY / SUPABASE_URL / SUPABASE_SERVICE_KEY
+# 不配置也没关系，系统会自动进入演示模式
 
 # 3. 启动服务
 npm start
 # → http://localhost:3000
 ```
 
-无 API Key 时自动进入**演示模式**，直接可测试所有Agent路由。
+**演示模式**: 无 API Key 时自动进入，所有功能可测试。
 
 ---
 
@@ -56,6 +57,8 @@ npm start
 1. 登录 [supabase.com](https://supabase.com) 新建项目
 2. 左侧 **SQL Editor** → 粘贴 `supabase_schema.sql` → 点 **Run**
 3. 自动创建6张表：`customers`（客户档案）· `conversations`（会话记录）· `orders`（订单）· `itineraries`（行程方案）· `suppliers`（供应商）· `daily_reports`（运营日报）
+
+> **详细配置指南**: 查看 [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
 
 ---
 
@@ -174,20 +177,37 @@ curl http://localhost:3000/agents
 
 ## ☁️ 部署到 Vercel
 
-1. 打开 [vercel.com/new](https://vercel.com/new) → 选 `lvyeyun` 仓库
-2. Environment Variables 只填这3个：
+### 快速开始（演示模式）
+
+1. 打开 [vercel.com/new](https://vercel.com/new) → 导入 GitHub 仓库
+2. Environment Variables 只需填这1个：
 
 | Key | Value |
 |-----|-------|
-| `LLM_API_KEY` | `demo`（演示模式，可先不接真实AI） |
-| `SUPABASE_URL` | 你的 Supabase Project URL |
-| `SUPABASE_SERVICE_KEY` | 你的 Supabase service_role key |
+| `LLM_API_KEY` | `demo`（演示模式，无需真实AI） |
 
 3. 点 **Deploy** → 完成 🚀
 
-验证：打开 `https://lvyeyun.vercel.app/status` 返回 `{"status":"ok"}` = 成功
+### 完整部署（生产模式）
 
-> 💡 没有 Supabase 也能部署，系统自动降级内存模式，所有功能照常演示。
+1. 创建 Supabase 项目（参考 [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)）
+2. 获取 Project URL 和 service_role key
+3. Vercel 环境变量配置：
+
+| Key | Value |
+|-----|-------|
+| `LLM_API_KEY` | 你的 API 密钥 |
+| `SUPABASE_URL` | 你的 Supabase URL |
+| `SUPABASE_SERVICE_KEY` | 你的 service_role key |
+
+4. 点 **Deploy** → 完成 🚀
+
+### 验证部署
+
+打开 `https://your-project.vercel.app/status` 返回 `{"status":"ok"}` = 成功
+
+> **详细部署指南**: 查看 [DEPLOYMENT.md](./DEPLOYMENT.md)  
+> **部署检查清单**: 查看 [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md)
 
 ---
 
@@ -227,6 +247,18 @@ Phase 2（3-6月）：打通需求→行程→报价全链路
        ↓
 Phase 3（6-12月）：SaaS规模复制，接入更多旅行社
 ```
+
+---
+
+## 📖 相关文档
+
+| 文档 | 说明 |
+|------|------|
+| [QUICKSTART.md](./QUICKSTART.md) | 快速开始指南 |
+| [DEPLOYMENT.md](./DEPLOYMENT.md) | Vercel 部署完整指南 |
+| [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) | Supabase 数据库配置 |
+| [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) | 部署检查清单 |
+| [DEPLOYMENT_SUMMARY.md](./DEPLOYMENT_SUMMARY.md) | 部署总结 |
 
 ---
 

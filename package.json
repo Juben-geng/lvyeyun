@@ -6,7 +6,9 @@
   "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "node --watch index.js",
+    "test": "curl http://localhost:3000/status",
+    "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.1",
