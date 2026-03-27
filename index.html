@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>智途AI · OpenClaw — 旅行社AI效率工具</title>
+  <title>旅业云AI · TripClaw — 旅行社智能运营平台</title>
   <style>
     :root {
       --primary: #1a6ef5;
@@ -18,6 +18,8 @@
       --border: #2d3752;
       --green: #22c55e;
       --yellow: #f59e0b;
+      --travel-primary: #0891b2;
+      --travel-secondary: #0e7490;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -52,23 +54,23 @@
     .nav-links a:hover { color: var(--text); }
     .nav-links a.active { color: var(--text); font-weight: 600; }
     .nav-links a.nav-feature-btn {
-      color: #a78bfa;
-      border: 1px solid rgba(167,139,250,0.3);
+      color: #06b6d4;
+      border: 1px solid rgba(6,182,212,0.3);
       padding: 5px 14px; border-radius: 20px;
       font-weight: 600;
       transition: all 0.2s;
     }
     .nav-links a.nav-feature-btn:hover {
-      background: rgba(167,139,250,0.15);
-      color: #c4b5fd;
-      border-color: rgba(167,139,250,0.6);
+      background: rgba(6,182,212,0.15);
+      color: #22d3ee;
+      border-color: rgba(6,182,212,0.6);
     }
     .nav-cta {
-      background: var(--primary); color: #fff; border: none;
+      background: var(--travel-primary); color: #fff; border: none;
       padding: 8px 20px; border-radius: 8px; font-size: 14px;
       cursor: pointer; font-weight: 600; transition: background 0.2s;
     }
-    .nav-cta:hover { background: var(--primary-dark); }
+    .nav-cta:hover { background: var(--travel-secondary); }
 
     /* ========== HERO ========== */
     .hero {
@@ -81,7 +83,7 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(26,110,245,0.18) 0%, transparent 70%),
+      background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(8,145,178,0.18) 0%, transparent 70%),
                   radial-gradient(ellipse 60% 50% at 80% 70%, rgba(255,107,43,0.08) 0%, transparent 60%);
     }
     /* 动态粒子 */
@@ -90,7 +92,7 @@
     }
     .particle {
       position: absolute; border-radius: 50%;
-      background: rgba(26,110,245,0.3);
+      background: rgba(8,145,178,0.3);
       animation: float-particle linear infinite;
     }
     @keyframes float-particle {
@@ -101,11 +103,11 @@
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(26,110,245,0.15); border: 1px solid rgba(26,110,245,0.4);
-      color: #6fa8ff; padding: 4px 14px; border-radius: 20px;
+      background: rgba(8,145,178,0.15); border: 1px solid rgba(8,145,178,0.4);
+      color: #22d3ee; padding: 4px 14px; border-radius: 20px;
       font-size: 13px; font-weight: 500; margin-bottom: 28px;
     }
-    .hero-badge span { color: var(--primary); font-weight: 700; }
+    .hero-badge span { color: var(--travel-primary); font-weight: 700; }
     .hero h1 {
       font-size: clamp(36px, 6vw, 72px);
       font-weight: 800; line-height: 1.15;
@@ -114,7 +116,7 @@
     }
     .hero h1 em {
       font-style: normal;
-      background: linear-gradient(135deg, #4f9eff 0%, #a78bfa 50%, #f472b6 100%);
+      background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 50%, #f472b6 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero-sub {
@@ -124,28 +126,28 @@
     }
     .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
     .btn-primary {
-      background: var(--primary); color: #fff; padding: 14px 32px;
+      background: var(--travel-primary); color: #fff; padding: 14px 32px;
       border-radius: 10px; font-size: 16px; font-weight: 700;
       cursor: pointer; border: none; transition: all 0.25s;
-      box-shadow: 0 4px 24px rgba(26,110,245,0.4);
+      box-shadow: 0 4px 24px rgba(8,145,178,0.4);
       text-decoration: none; display: inline-block;
     }
-    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(26,110,245,0.5); }
+    .btn-primary:hover { background: var(--travel-secondary); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(8,145,178,0.5); }
     .btn-outline {
       background: transparent; color: var(--text); padding: 14px 32px;
       border-radius: 10px; font-size: 16px; font-weight: 600;
       cursor: pointer; border: 1px solid var(--border); transition: all 0.25s;
       text-decoration: none; display: inline-block;
     }
-    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-    .btn-purple {
-      background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; padding: 14px 32px;
+    .btn-outline:hover { border-color: var(--travel-primary); color: var(--travel-primary); }
+    .btn-teal {
+      background: linear-gradient(135deg, #06b6d4, #14b8a6); color: #fff; padding: 14px 32px;
       border-radius: 10px; font-size: 16px; font-weight: 700;
       cursor: pointer; border: none; transition: all 0.25s;
-      box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+      box-shadow: 0 4px 24px rgba(6,182,212,0.4);
       text-decoration: none; display: inline-block;
     }
-    .btn-purple:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
+    .btn-teal:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(6,182,212,0.5); }
 
     .hero-stats {
       display: flex; gap: 48px; justify-content: center; margin-top: 64px;
@@ -154,7 +156,7 @@
     .stat-item { text-align: center; }
     .stat-num {
       font-size: 40px; font-weight: 800;
-      background: linear-gradient(135deg, #4f9eff, #a78bfa);
+      background: linear-gradient(135deg, #06b6d4, #14b8a6);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       line-height: 1;
     }
@@ -165,8 +167,8 @@
     .container { max-width: 1100px; margin: 0 auto; }
     .section-tag {
       display: inline-block;
-      background: rgba(26,110,245,0.12); border: 1px solid rgba(26,110,245,0.3);
-      color: #6fa8ff; padding: 4px 12px; border-radius: 20px;
+      background: rgba(8,145,178,0.12); border: 1px solid rgba(8,145,178,0.3);
+      color: #22d3ee; padding: 4px 12px; border-radius: 20px;
       font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
       text-transform: uppercase; margin-bottom: 16px;
     }
@@ -189,7 +191,7 @@
     .pg-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
     .pg-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--primary), #a78bfa);
+      background: linear-gradient(90deg, var(--travel-primary), #14b8a6);
     }
     .pg-icon { font-size: 40px; margin-bottom: 16px; }
     .pg-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
@@ -223,11 +225,11 @@
     .flow-step:not(:last-child)::after {
       content: '→';
       position: absolute; right: -12px; top: 28px;
-      font-size: 24px; color: var(--primary); font-weight: 700;
+      font-size: 24px; color: var(--travel-primary); font-weight: 700;
     }
     .step-circle {
       width: 64px; height: 64px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #a78bfa);
+      background: linear-gradient(135deg, var(--travel-primary), #14b8a6);
       display: flex; align-items: center; justify-content: center;
       font-size: 28px; margin: 0 auto 16px; position: relative; z-index: 1;
     }
@@ -251,10 +253,10 @@
       display: flex; gap: 20px; align-items: flex-start;
       transition: border-color 0.25s;
     }
-    .feature-card:hover { border-color: var(--primary); }
+    .feature-card:hover { border-color: var(--travel-primary); }
     .feature-icon-box {
       width: 52px; height: 52px; border-radius: 12px;
-      background: rgba(26,110,245,0.15); border: 1px solid rgba(26,110,245,0.3);
+      background: rgba(8,145,178,0.15); border: 1px solid rgba(8,145,178,0.3);
       display: flex; align-items: center; justify-content: center;
       font-size: 24px; flex-shrink: 0;
     }
@@ -272,7 +274,7 @@
     .vision-teaser::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(124,58,237,0.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(6,182,212,0.12) 0%, transparent 70%);
     }
     .vision-layers {
       display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px;
@@ -283,16 +285,16 @@
       border-radius: 14px; padding: 24px;
       transition: all 0.25s; position: relative; overflow: hidden;
     }
-    .vl-card:hover { border-color: rgba(167,139,250,0.5); transform: translateY(-3px); }
+    .vl-card:hover { border-color: rgba(6,182,212,0.5); transform: translateY(-3px); }
     .vl-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      background: linear-gradient(90deg, #06b6d4, #14b8a6);
       opacity: 0; transition: opacity 0.25s;
     }
     .vl-card:hover::before { opacity: 1; }
     .vl-layer {
-      font-size: 11px; font-weight: 700; color: #7c3aed;
-      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      font-size: 11px; font-weight: 700; color: #06b6d4;
+      background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3);
       display: inline-block; padding: 2px 8px; border-radius: 10px;
       margin-bottom: 12px; letter-spacing: 0.5px;
     }
@@ -300,8 +302,8 @@
     .vl-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
     .vl-card.special {
       grid-column: span 2;
-      background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(244,114,182,0.1));
-      border-color: rgba(167,139,250,0.4);
+      background: linear-gradient(135deg, rgba(6,182,212,0.15), rgba(244,114,182,0.1));
+      border-color: rgba(6,182,212,0.4);
     }
     .vision-cta { text-align: center; margin-top: 48px; }
 
@@ -315,14 +317,14 @@
       border-bottom: 1px solid var(--border);
     }
     .compare-table th:first-child { text-align: left; }
-    .compare-table th.highlight { color: #4f9eff; background: rgba(26,110,245,0.12); }
+    .compare-table th.highlight { color: #06b6d4; background: rgba(8,145,178,0.12); }
     .compare-table td {
       padding: 14px 20px; font-size: 14px;
       border-bottom: 1px solid rgba(45,55,82,0.5);
       text-align: center; color: var(--muted);
     }
     .compare-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
-    .compare-table td.highlight { background: rgba(26,110,245,0.06); color: #60b3ff; font-weight: 600; }
+    .compare-table td.highlight { background: rgba(8,145,178,0.06); color: #22d3ee; font-weight: 600; }
     .compare-table tr:last-child td { border-bottom: none; }
     .check { color: var(--green); font-size: 18px; }
     .cross { color: #ef4444; font-size: 18px; }
@@ -336,13 +338,13 @@
       border-radius: 16px; padding: 28px;
       transition: border-color 0.25s;
     }
-    .t-card:hover { border-color: rgba(26,110,245,0.4); }
+    .t-card:hover { border-color: rgba(8,145,178,0.4); }
     .t-stars { color: #f59e0b; font-size: 16px; margin-bottom: 16px; }
     .t-quote { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
     .t-author { display: flex; align-items: center; gap: 12px; }
     .t-avatar {
       width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), #a78bfa);
+      background: linear-gradient(135deg, var(--travel-primary), #14b8a6);
       display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 700;
     }
@@ -351,7 +353,7 @@
 
     /* ========== CTA ========== */
     .cta-section {
-      background: linear-gradient(135deg, rgba(26,110,245,0.2) 0%, rgba(167,139,250,0.15) 100%);
+      background: linear-gradient(135deg, rgba(8,145,178,0.2) 0%, rgba(6,182,212,0.15) 100%);
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       text-align: center; padding: 100px 24px;
     }
@@ -379,15 +381,15 @@
     /* ========== FLOAT BADGE ========== */
     .float-badge {
       position: fixed; bottom: 32px; right: 32px; z-index: 999;
-      background: var(--primary); color: #fff;
+      background: var(--travel-primary); color: #fff;
       padding: 12px 20px; border-radius: 50px;
       font-size: 14px; font-weight: 700;
-      box-shadow: 0 8px 32px rgba(26,110,245,0.5);
+      box-shadow: 0 8px 32px rgba(8,145,178,0.5);
       cursor: pointer; transition: all 0.25s;
       display: flex; align-items: center; gap: 8px;
       text-decoration: none;
     }
-    .float-badge:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(26,110,245,0.6); }
+    .float-badge:hover { transform: scale(1.05); box-shadow: 0 12px 40px rgba(8,145,178,0.6); }
 
     /* ========== RESPONSIVE ========== */
     @media (max-width: 768px) {
@@ -409,7 +411,7 @@
 <nav>
   <a class="nav-logo" href="index.html">
     <span class="claw">🦞</span>
-    <span>智途AI · OpenClaw</span>
+    <span>旅业云AI · TripClaw</span>
   </a>
   <div class="nav-links">
     <a href="#pain">核心场景</a>
@@ -426,15 +428,15 @@
   <div class="hero-bg"></div>
   <div class="hero-particles" id="particles"></div>
   <div style="position:relative;z-index:1;">
-    <div class="hero-badge">🚀 <span>专为中小旅行社打造</span> · 轻量快落地</div>
+    <div class="hero-badge">🚀 <span>专为旅行社行业打造</span> · 智能运营平台</div>
     <h1>旅行社的<br/><em>AI效率革命</em></h1>
     <p class="hero-sub">
-      用AI龙虾替代需求沟通、行程制作、供应商比价三大重复工作<br/>
-      从 <strong style="color:#ef4444">4-9小时/组</strong> 压缩到 <strong style="color:#22c55e">20分钟内出单</strong>
+      用AI智能助手替代需求沟通、行程制作、供应商比价三大重复工作<br/>
+      从 <strong style="color:#ef4444">4-9小时/单</strong> 压缩到 <strong style="color:#22c55e">20分钟内出单</strong>
     </p>
     <div class="hero-btns">
       <a href="#pain" class="btn-primary">🦞 免费体验 Demo</a>
-      <a href="features.html" class="btn-purple">✨ 查看实现与功能</a>
+      <a href="features.html" class="btn-teal">✨ 查看实现与功能</a>
     </div>
     <div class="hero-stats">
       <div class="stat-item">
@@ -462,7 +464,7 @@
   <div class="container">
     <div class="section-tag">核心场景</div>
     <h2 class="section-title">三大痛点，AI全部接管</h2>
-    <p class="section-desc">每天让定制师精疲力竭的重复工作，OpenClaw 全部替你干。</p>
+    <p class="section-desc">每天让定制师精疲力竭的重复工作，TripClaw 全部替你干。</p>
     <div class="pg-grid">
       <div class="pg-card">
         <div class="pg-icon">💬</div>
@@ -580,7 +582,7 @@
       </div>
     </div>
     <div class="features-more-btn">
-      <a href="features.html" class="btn-purple" style="font-size:16px;padding:14px 40px;">✨ 查看完整的实现与功能 →</a>
+      <a href="features.html" class="btn-teal" style="font-size:16px;padding:14px 40px;">✨ 查看完整的实现与功能 →</a>
     </div>
   </div>
 </section>
@@ -588,8 +590,8 @@
 <!-- VISION TEASER -->
 <section class="vision-teaser" id="vision">
   <div class="container" style="position:relative;z-index:1;">
-    <div class="section-tag" style="background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.4);color:#a78bfa;">最终愿景</div>
-    <h2 class="section-title">不只是效率工具<br/>而是帮你建立<em style="font-style:normal;background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">一生的关系</em></h2>
+    <div class="section-tag" style="background:rgba(6,182,212,0.15);border-color:rgba(6,182,212,0.4);color:#22d3ee;">最终愿景</div>
+    <h2 class="section-title">不只是效率工具<br/>而是帮你建立<em style="font-style:normal;background:linear-gradient(135deg,#14b8a6,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">一生的关系</em></h2>
     <p class="section-desc">七层AI能力矩阵，从替代重复工作，到成为客人情感伴侣</p>
     <div class="vision-layers">
       <div class="vl-card">
@@ -629,7 +631,7 @@
       </div>
     </div>
     <div class="vision-cta">
-      <a href="features.html" class="btn-purple" style="font-size:16px;padding:14px 40px;">探索完整愿景与实现方案 →</a>
+      <a href="features.html" class="btn-teal" style="font-size:16px;padding:14px 40px;">探索完整愿景与实现方案 →</a>
     </div>
   </div>
 </section>
@@ -638,8 +640,8 @@
 <section class="compare" id="compare">
   <div class="container">
     <div class="section-tag">对比分析</div>
-    <h2 class="section-title">为什么选择 OpenClaw？</h2>
-    <p class="section-desc">不是大OTA的边角料，是专为中小旅行社的专属效率武器。</p>
+    <h2 class="section-title">为什么选择 TripClaw？</h2>
+    <p class="section-desc">不是大OTA的边角料，是专为旅行社的专属效率武器。</p>
     <div class="compare-table">
       <table>
         <thead>
@@ -648,12 +650,12 @@
             <th>携程/同程AI</th>
             <th>传统ERP</th>
             <th>通用大模型</th>
-            <th class="highlight">🦞 OpenClaw</th>
+            <th class="highlight">🦞 TripClaw</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>面向中小旅行社</td>
+            <td>面向旅行社</td>
             <td><span class="cross">✗</span></td>
             <td><span class="partial">△ 功能过重</span></td>
             <td><span class="cross">✗</span></td>
@@ -715,7 +717,7 @@
     <div class="t-grid">
       <div class="t-card">
         <div class="t-stars">★★★★★</div>
-        <p class="t-quote">"以前我一天最多接 4 组客户，用了 OpenClaw 之后接了 18 组，还没加班。AI把问需求、写行程这两件最烦的事都解决了。"</p>
+        <p class="t-quote">"以前我一天最多接 4 组客户，用了 TripClaw 之后接了 18 组，还没加班。AI把问需求、写行程这两件最烦的事都解决了。"</p>
         <div class="t-author">
           <div class="t-avatar">陈</div>
           <div>
@@ -757,7 +759,7 @@
     <p>免费体验全流程 Demo，10分钟感受 15 倍效率提升</p>
     <div class="cta-group">
       <button class="btn-primary" style="font-size:18px;padding:16px 40px;">🦞 免费开始体验</button>
-      <a href="features.html" class="btn-purple" style="font-size:18px;padding:16px 40px;">✨ 查看实现与功能</a>
+      <a href="features.html" class="btn-teal" style="font-size:18px;padding:16px 40px;">✨ 查看实现与功能</a>
     </div>
     <p class="qrcode-hint">微信扫码 · 无需下载 · 即开即用</p>
   </div>
@@ -766,7 +768,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">🦞 智途AI · OpenClaw</div>
+    <div class="footer-logo">🦞 旅业云AI · TripClaw</div>
     <div class="footer-links">
       <a href="index.html">首页</a>
       <a href="features.html">实现与功能</a>
@@ -775,7 +777,7 @@
       <a href="#">关于我们</a>
     </div>
   </div>
-  <p class="footer-copy">© 2026 智途AI · OpenClaw · 专为中小旅行社打造的AI效率工具</p>
+  <p class="footer-copy">© 2026 旅业云AI · TripClaw · 专为旅行社打造的智能运营平台</p>
 </footer>
 
 <!-- FLOAT BADGE -->
