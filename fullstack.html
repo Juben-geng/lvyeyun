@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenClaw · 智途AI — 全栈说明书 v1.0</title>
+  <style>
+    :root {
+      --primary: #1a6ef5;
+      --primary-dark: #0d4fc2;
+      --accent: #ff6b2b;
+      --dark: #0d1117;
+      --dark2: #161b27;
+      --dark3: #1e2535;
+      --card: #1c2236;
+      --border: #252f48;
+      --text: #e8ecf4;
+      --muted: #7a88a8;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --purple: #a855f7;
+      --pink: #ec4899;
+      --teal: #14b8a6;
+      --rose: #fb7185;
+      --orange: #f97316;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ===== SIDEBAR NAV ===== */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 240px; z-index: 100;
+      background: rgba(13,17,23,0.96);
+      border-right: 1px solid var(--border);
+      overflow-y: auto; padding: 24px 0;
+      display: flex; flex-direction: column;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px 20px; border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .logo-sq {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .sidebar-logo span { font-size: 15px; font-weight: 700; }
+    .sidebar-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 20px 4px;
+    }
+    .sidebar a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 20px; font-size: 13px;
+      color: var(--muted); text-decoration: none;
+      transition: all .15s; border-left: 2px solid transparent;
+    }
+    .sidebar a:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .sidebar a.active { color: var(--primary); border-left-color: var(--primary); background: rgba(26,110,245,0.06); }
+    .sidebar-footer {
+      margin-top: auto; padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-footer a {
+      font-size: 12px; color: var(--muted); text-decoration: none;
+      display: block; padding: 4px 0;
+    }
+    .sidebar-footer a:hover { color: var(--text); }
+
+    /* ===== MAIN ===== */
+    .main { margin-left: 240px; }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(13,17,23,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-title { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .topbar-tags { display: flex; gap: 8px; }
+    .topbar-tag {
+      font-size: 11px; padding: 3px 10px; border-radius: 12px;
+      background: rgba(26,110,245,0.12);
+      border: 1px solid rgba(26,110,245,0.25);
+      color: var(--primary);
+    }
+
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 72px 48px;
+      border-bottom: 1px solid var(--border);
+      max-width: 900px;
+    }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(26px, 3.5vw, 38px); font-weight: 800;
+      background: linear-gradient(135deg, #fff 40%, #8899cc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 12px;
+    }
+    .section-sub { color: var(--muted); font-size: 16px; margin-bottom: 40px; line-height: 1.8; }
+
+    /* ===== COVER ===== */
+    .cover {
+      padding: 80px 48px 72px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(26,110,245,0.12) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+    .cover-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(26,110,245,0.1); border: 1px solid rgba(26,110,245,0.3);
+      color: var(--primary); font-size: 12px; font-weight: 700;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+    .cover h1 {
+      font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, #c0d4ff 50%, #ff9a6b 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 20px;
+    }
+    .cover-desc { font-size: 18px; color: var(--muted); max-width: 640px; line-height: 1.8; margin-bottom: 36px; }
+    .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+    .meta-item .m-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .meta-item .m-val { font-size: 15px; font-weight: 600; margin-top: 2px; }
+
+    /* ===== STAT CARDS ===== */
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 22px;
+    }
+    .stat-num {
+      font-size: 36px; font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { color: var(--muted); font-size: 13px; margin-top: 6px; }
+
+    /* ===== TWO COLUMN ===== */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    /* ===== GENERIC CARD ===== */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: rgba(26,110,245,0.35); transform: translateY(-2px); }
+    .card-icon { font-size: 24px; margin-bottom: 12px; }
+    .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ===== PROBLEM CARDS ===== */
+    .problem-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px; display: flex; gap: 16px;
+    }
+    .problem-num {
+      font-size: 28px; font-weight: 900; color: var(--rose);
+      line-height: 1; flex-shrink: 0;
+    }
+    .problem-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .problem-body p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    /* ===== TIMELINE ===== */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 20px 1fr; gap: 16px; align-items: start; }
+    .tl-time { font-size: 13px; font-weight: 700; color: var(--primary); text-align: right; padding-top: 3px; }
+    .tl-mid { display: flex; flex-direction: column; align-items: center; }
+    .tl-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--primary); flex-shrink: 0; margin-top: 5px;
+      box-shadow: 0 0 8px rgba(26,110,245,0.5);
+    }
+    .tl-line { width: 2px; flex: 1; background: var(--border); min-height: 40px; }
+    .tl-item:last-child .tl-line { display: none; }
+    .tl-right { padding-bottom: 32px; }
+    .tl-right h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .tl-right p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    /* ===== AGENT TABLE ===== */
+    .agent-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .agent-table th, .agent-table td {
+      padding: 14px 18px; text-align: left;
+      border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .agent-table th {
+      background: var(--dark3); font-size: 12px; font-weight: 700;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .agent-table th:first-child { border-radius: 12px 0 0 0; }
+    .agent-table th:last-child { border-radius: 0 12px 0 0; }
+    .agent-table tr:last-child td { border-bottom: none; }
+    .agent-table tr:hover td { background: rgba(26,110,245,0.04); }
+    .table-wrap { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .layer-badge {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 6px;
+    }
+    .l1 { background: rgba(26,110,245,0.15); color: #60a5fa; }
+    .l2 { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    .l3 { background: rgba(236,72,153,0.15); color: var(--pink); }
+    .l4 { background: rgba(168,85,247,0.15); color: var(--purple); }
+    .l5 { background: rgba(34,197,94,0.15); color: var(--green); }
+
+    /* ===== FLOW CHART ===== */
+    .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .flow-node {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px; text-align: center;
+      min-width: 110px;
+    }
+    .flow-node .fn-icon { font-size: 20px; margin-bottom: 4px; }
+    .flow-node .fn-name { font-size: 13px; font-weight: 600; }
+    .flow-node .fn-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .flow-arrow {
+      font-size: 18px; color: var(--primary); padding: 0 8px; flex-shrink: 0;
+    }
+
+    /* ===== TECH STACK ===== */
+    .tech-layer {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 24px; margin-bottom: 12px;
+      display: grid; grid-template-columns: 140px 1fr; gap: 16px; align-items: center;
+    }
+    .tech-layer-name { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tech-tag {
+      background: var(--dark3); border: 1px solid var(--border);
+      font-size: 12px; color: var(--text); padding: 4px 12px; border-radius: 8px;
+    }
+    .tech-tag.highlight { border-color: rgba(26,110,245,0.35); color: var(--primary); }
+
+    /* ===== COMPARE TABLE ===== */
+    .cmp-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .cmp-table th, .cmp-table td {
+      padding: 13px 18px; text-align: left;
+      border-bottom: 1px solid var(--border); font-size: 14px;
+    }
+    .cmp-table th {
+      background: var(--dark3); font-size: 12px; font-weight: 700;
+      color: var(--muted);
+    }
+    .cmp-table th:first-child { border-radius: 12px 0 0 0; }
+    .cmp-table th:last-child { border-radius: 0 12px 0 0; }
+    .cmp-table tr:last-child td { border-bottom: none; }
+    .td-bad { color: var(--rose); }
+    .td-ok { color: var(--yellow); }
+    .td-good { color: var(--green); }
+
+    /* ===== BUSINESS MODEL ===== */
+    .biz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .biz-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px; position: relative; overflow: hidden;
+    }
+    .biz-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .biz-card:nth-child(1)::after { background: linear-gradient(90deg, var(--primary), #60a5fa); }
+    .biz-card:nth-child(2)::after { background: linear-gradient(90deg, var(--accent), var(--yellow)); }
+    .biz-card:nth-child(3)::after { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+    .biz-card:nth-child(4)::after { background: linear-gradient(90deg, var(--teal), var(--green)); }
+    .biz-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .biz-card .price { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 6px; }
+    .biz-card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    /* ===== RISK TABLE ===== */
+    .risk-list { display: flex; flex-direction: column; gap: 12px; }
+    .risk-item {
+      display: grid; grid-template-columns: 80px 1fr 1fr;
+      gap: 16px; align-items: start;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 20px;
+    }
+    .risk-level {
+      font-size: 12px; font-weight: 700; padding: 3px 10px;
+      border-radius: 8px; text-align: center;
+    }
+    .risk-high { background: rgba(251,113,133,0.15); color: var(--rose); }
+    .risk-mid { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    .risk-low { background: rgba(34,197,94,0.15); color: var(--green); }
+    .risk-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .risk-item p { font-size: 13px; color: var(--muted); }
+
+    /* ===== PHASE CARDS ===== */
+    .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .phase-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+    }
+    .phase-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--primary); margin-bottom: 8px; }
+    .phase-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .phase-time { color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+    .phase-goal {
+      background: var(--dark3); border-radius: 10px; padding: 12px 14px;
+      font-size: 13px; color: var(--text); margin-bottom: 14px;
+    }
+    .phase-goal span { color: var(--green); font-weight: 600; }
+    .phase-list { list-style: none; }
+    .phase-list li {
+      font-size: 13px; color: var(--muted); padding: 5px 0;
+      border-bottom: 1px solid rgba(37,47,72,0.5);
+      display: flex; gap: 8px;
+    }
+    .phase-list li:last-child { border-bottom: none; }
+    .phase-list li::before { content: '·'; color: var(--primary); }
+
+    /* ===== CALLOUT ===== */
+    .callout {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: rgba(26,110,245,0.06);
+      border: 1px solid rgba(26,110,245,0.2);
+      border-radius: 14px; padding: 20px 24px; margin: 24px 0;
+    }
+    .callout-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .callout-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .callout-body p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ===== BOTTOM CTA ===== */
+    .cta-section {
+      padding: 72px 48px; text-align: center;
+      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(26,110,245,0.1) 0%, transparent 70%);
+    }
+    .cta-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+    .cta-section p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+    .btn { display: inline-block; padding: 13px 32px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all .2s; margin: 0 8px; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ===== MISC ===== */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { padding: 4px 12px; border-radius: 16px; font-size: 12px; background: var(--dark3); border: 1px solid var(--border); color: var(--muted); }
+    .highlight { color: var(--primary); font-weight: 600; }
+    .green { color: var(--green); }
+    .red { color: var(--rose); }
+    hr.div { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* Mobile */
+    @media (max-width: 1024px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .section { padding: 48px 24px; }
+      .cover { padding: 60px 24px 48px; }
+      .topbar { padding: 0 24px; }
+      .stat-row { grid-template-columns: repeat(2,1fr); }
+      .two-col, .biz-grid, .rules-grid { grid-template-columns: 1fr; }
+      .three-col, .phase-grid { grid-template-columns: 1fr; }
+      .risk-item { grid-template-columns: 1fr; }
+      .tech-layer { grid-template-columns: 1fr; }
+      .flow { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-sq">🦞</div>
+    <span>OpenClaw 全栈</span>
+  </div>
+
+  <div class="sidebar-label">概览</div>
+  <a href="#cover">封面 · 产品定位</a>
+  <a href="#problem">行业痛点</a>
+
+  <div class="sidebar-label">产品</div>
+  <a href="#scenarios">三大核心场景</a>
+  <a href="#agents">七大AI Agent</a>
+  <a href="#layers">七层能力矩阵</a>
+  <a href="#flow">业务流转图</a>
+
+  <div class="sidebar-label">技术</div>
+  <a href="#tech">技术架构</a>
+  <a href="#data">数据架构</a>
+  <a href="#mini">微信小程序</a>
+
+  <div class="sidebar-label">商业</div>
+  <a href="#compare">竞品对比</a>
+  <a href="#bizmodel">商业模式</a>
+  <a href="#roadmap">落地路线</a>
+  <a href="#risk">风险清单</a>
+
+  <div class="sidebar-label">附录</div>
+  <a href="#glossary">术语表</a>
+
+  <div class="sidebar-footer">
+    <a href="index.html">← 返回首页</a>
+    <a href="features.html">功能介绍</a>
+    <a href="xiaoxin_soul.html">小心灵魂说明书</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-title">OpenClaw · 智途AI — 全栈说明书</span>
+  <div class="topbar-tags">
+    <span class="topbar-tag">v1.0</span>
+    <span class="topbar-tag">2026-03-26</span>
+    <span class="topbar-tag">内部文件</span>
+  </div>
+</div>
+
+<!-- ===== COVER ===== -->
+<div class="cover" id="cover">
+  <div class="cover-badge">🦞 OpenClaw · 智途AI · 全栈说明书</div>
+  <h1>让每一家旅行社<br/>都拥有AI团队</h1>
+  <div class="cover-desc">
+    OpenClaw 是专为中小旅游定制团队设计的AI SaaS产品。<br/>
+    七大AI Agent协同，覆盖需求采集→行程制作→供应商比价→售后服务→终身关系全链路。<br/>
+    整体效率提升 15-25 倍，单日处理订单量从 3-5 组提升至 20 组以上。
+  </div>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <div class="m-label">目标客户</div>
+      <div class="m-val">中小旅游定制团队 & 传统旅行社</div>
+    </div>
+    <div class="meta-item">
+      <div class="m-label">当前阶段</div>
+      <div class="m-val">Phase 1 · 产品验证期</div>
+    </div>
+    <div class="meta-item">
+      <div class="m-label">核心定位</div>
+      <div class="m-val">轻量 · 快落地 · 精简版AI工具</div>
+    </div>
+    <div class="meta-item">
+      <div class="m-label">文档版本</div>
+      <div class="m-val">v1.0 · 2026年3月</div>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== PROBLEM ===== -->
+<div class="section" id="problem">
+  <div class="section-eyebrow">Industry Pain Points</div>
+  <div class="section-title">旅游行业的三大沉疴</div>
+  <div class="section-sub">这不是效率问题，这是整个行业的结构性困境。每一家中小旅行社都被这三件事困住了。</div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num">80%</div>
+      <div class="stat-label">定制师时间消耗在重复性工作上</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3-5组</div>
+      <div class="stat-label">传统方式单日最多处理订单</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">15-30%</div>
+      <div class="stat-label">人工沟通的平均漏项率</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">&lt;10%</div>
+      <div class="stat-label">旅行社客户的二次复购率</div>
+    </div>
+  </div>
+
+  <div class="three-col">
+    <div class="problem-card">
+      <div class="problem-num">01</div>
+      <div class="problem-body">
+        <h4>需求沟通：时间黑洞</h4>
+        <p>每个客人要反复沟通1-2小时，问来问去、微信拉锯。人工记录容易漏项，一漏就是差评。</p>
+      </div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">02</div>
+      <div class="problem-body">
+        <h4>行程制作：手工重劳动</h4>
+        <p>查资料、排天数、配酒店、写文案，一份行程2-4小时。人多了忙不过来，人少了单量上不去。</p>
+      </div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-num">03</div>
+      <div class="problem-body">
+        <h4>供应商比价：信息不透明</h4>
+        <p>挨个打电话问地接，手工记录比价，算利润靠Excel。1-3小时才出一张报价单，还容易算错。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:32px;">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <h4>更深层的问题：关系断裂</h4>
+      <p>以上三个是效率问题，可以被工具解决。但还有第四个问题更致命——旅行社与客人之间没有持续关系。出完一趟行程，客人下次可能直接去OTA平台，或者被竞争对手抢走。OpenClaw的终极目标，是用AI帮旅行社建立「一生的客人关系」。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== SCENARIOS ===== -->
+<div class="section" id="scenarios">
+  <div class="section-eyebrow">Core Scenarios</div>
+  <div class="section-title">三大核心场景</div>
+  <div class="section-sub">三件最耗时的事，AI来做——每一件都有清晰的时间对比和可量化的价值</div>
+
+  <div class="table-wrap" style="margin-bottom:32px;">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>场景</th>
+          <th>传统方式耗时</th>
+          <th>AI方式耗时</th>
+          <th>效率提升</th>
+          <th>核心价值</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🎯 需求沟通采集</td>
+          <td class="td-bad">1-2 小时</td>
+          <td class="td-good">10 分钟</td>
+          <td class="td-good">6-12×</td>
+          <td>0漏项，标准化档案输出</td>
+        </tr>
+        <tr>
+          <td>🗺️ 行程方案制作</td>
+          <td class="td-bad">2-4 小时</td>
+          <td class="td-good">3 分钟</td>
+          <td class="td-good">40-80×</td>
+          <td>初稿即可用，支持多轮调整</td>
+        </tr>
+        <tr>
+          <td>💰 供应商比价报价</td>
+          <td class="td-bad">1-3 小时</td>
+          <td class="td-good">5 分钟</td>
+          <td class="td-good">12-36×</td>
+          <td>含利润率，智能推荐方案</td>
+        </tr>
+        <tr>
+          <td>📦 全流程合计</td>
+          <td class="td-bad">4-9 小时/单</td>
+          <td class="td-good">约 20 分钟/单</td>
+          <td class="td-good">15-25×</td>
+          <td>单日处理量 3-5组 → 20组+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">🧮</div>
+    <div class="callout-body">
+      <h4>换算成钱是多少？</h4>
+      <p>假设一个5人定制团队，传统方式每月处理约80-100单，使用OpenClaw后可提升至400-500单。按每单利润均值2000元计算，月增利润可达 <span style="color:var(--green);font-weight:700;">60万-80万元</span>。这还不包括关系维护带来的复购和口碑增量。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== AGENTS ===== -->
+<div class="section" id="agents">
+  <div class="section-eyebrow">Seven Agents</div>
+  <div class="section-title">七大AI Agent</div>
+  <div class="section-sub">每个Agent有独立人格、职责边界和专属话术。像一支真实的团队，而不是一个功能列表。</div>
+
+  <div class="table-wrap">
+    <table class="agent-table">
+      <thead>
+        <tr>
+          <th>Agent</th>
+          <th>代号</th>
+          <th>职责核心</th>
+          <th>替代岗位</th>
+          <th>层级</th>
+          <th>激活词</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🦞 总指挥</td>
+          <td><strong>龙虾</strong></td>
+          <td>意图识别·任务调度·结果整合</td>
+          <td>团队主管</td>
+          <td><span class="layer-badge l1">L0</span></td>
+          <td>「龙虾」</td>
+        </tr>
+        <tr>
+          <td>🍊 需求采集师</td>
+          <td><strong>小橙</strong></td>
+          <td>AI对话采集·需求归档·漏项检测</td>
+          <td>定制师前台</td>
+          <td><span class="layer-badge l1">L1</span></td>
+          <td>「小橙」「需求采集」</td>
+        </tr>
+        <tr>
+          <td>🗺️ 行程规划师</td>
+          <td><strong>小蓝</strong></td>
+          <td>行程生成·模板调用·资源匹配·PDF导出</td>
+          <td>资深定制师</td>
+          <td><span class="layer-badge l1">L1</span></td>
+          <td>「小蓝」「制作行程」</td>
+        </tr>
+        <tr>
+          <td>💰 报价专家</td>
+          <td><strong>小金</strong></td>
+          <td>多源比价·利润计算·报价单生成</td>
+          <td>操作OP+财务</td>
+          <td><span class="layer-badge l2">L2</span></td>
+          <td>「小金」「比价」</td>
+        </tr>
+        <tr>
+          <td>🌟 售后管家</td>
+          <td><strong>小暖</strong></td>
+          <td>出行提醒·安全预警·航班监控</td>
+          <td>售后客服</td>
+          <td><span class="layer-badge l3">L3</span></td>
+          <td>「小暖」「出行提醒」</td>
+        </tr>
+        <tr>
+          <td>❤️ 情感伴侣</td>
+          <td><strong>小心</strong></td>
+          <td>关系维护·生日祝福·精准推荐·终身陪伴</td>
+          <td>（全新岗位）</td>
+          <td><span class="layer-badge l4">L4</span></td>
+          <td>「小心」「生日祝福」</td>
+        </tr>
+        <tr>
+          <td>📋 运营官</td>
+          <td><strong>小绿</strong></td>
+          <td>运营报告·订单追踪·数据统计</td>
+          <td>操作OP</td>
+          <td><span class="layer-badge l5">L5</span></td>
+          <td>「小绿」「运营汇总」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:24px;">
+    <div class="callout-icon">❤️</div>
+    <div class="callout-body">
+      <h4>小心是七个里最特别的</h4>
+      <p>其他六个Agent处理的是「效率」问题，可以被竞争对手复制。但小心处理的是「关系」问题——她积累的是客户的记忆、故事和情感连接。这是随时间增厚的护城河，越用越深，越难被取代。<a href="xiaoxin_soul.html" style="color:var(--primary);text-decoration:none;font-weight:600;">→ 查看小心灵魂说明书</a></p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== LAYER MATRIX ===== -->
+<div class="section" id="layers">
+  <div class="section-eyebrow">Capability Matrix</div>
+  <div class="section-title">七层AI能力矩阵</div>
+  <div class="section-sub">从效率工具到终身关系——七层能力是OpenClaw的完整野心，也是一步一步可验证的路径</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-time">Layer 1</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟢 AI替代旅游定制师 <span style="font-size:11px;background:rgba(34,197,94,0.15);color:var(--green);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">已实现</span></h4>
+        <p>小橙负责需求采集，小蓝负责行程规划。1-2小时→10分钟，2-4小时→3分钟。验证核心价值的第一枪。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 2</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--green)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟢 AI代替供应商人工报价 <span style="font-size:11px;background:rgba(34,197,94,0.15);color:var(--green);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">已实现</span></h4>
+        <p>小金自动拉取多家供应商报价，智能排序，利润率自动计算，5分钟出报价单。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 3</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟡 AI替代批发商操作OP <span style="font-size:11px;background:rgba(245,158,11,0.15);color:var(--yellow);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">开发中</span></h4>
+        <p>自动下单、确认、发单，替代批发商人工操作流程。需要与地接社/批发商系统深度对接。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 4</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟡 AI辅助营业部报价与行程推荐 <span style="font-size:11px;background:rgba(245,158,11,0.15);color:var(--yellow);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">开发中</span></h4>
+        <p>B端SaaS版：旅行社营业部用AI给自己的客人推荐行程和报价。是从服务自身→服务行业的关键一跃。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 5</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--yellow)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟡 AI售后全程服务 + 安全提醒 <span style="font-size:11px;background:rgba(245,158,11,0.15);color:var(--yellow);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">开发中</span></h4>
+        <p>小暖负责出发前提醒、途中安全预警、航班变动通知。将服务延伸到旅途全程，不只是出发前。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 6</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--purple)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>🟣 AI客户画像 + 全年精准推荐 <span style="font-size:11px;background:rgba(168,85,247,0.15);color:var(--purple);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">规划中</span></h4>
+        <p>小心记住每位客人的偏好，全年推送精准旅行内容和活动，激活复购，降低获客成本。</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-time">Layer 7</div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--pink); box-shadow: 0 0 12px rgba(236,72,153,0.6)"></div><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <h4>❤️ AI成为客人情感伴侣 <span style="font-size:11px;background:rgba(236,72,153,0.15);color:var(--pink);padding:2px 8px;border-radius:6px;margin-left:8px;font-weight:700;">终极愿景</span></h4>
+        <p>不只是效率工具，而是帮旅行社与每一个客人建立一生的关系。知心大哥大姐，铁杆老友，成长伴侣。这是OpenClaw真正的护城河——任何竞争对手都复制不了的「关系资产」。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== FLOW ===== -->
+<div class="section" id="flow">
+  <div class="section-eyebrow">Business Flow</div>
+  <div class="section-title">业务流转图</div>
+  <div class="section-sub">一个客人从第一次接触到成为终身用户，经历的完整链路</div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:24px;">
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:20px;letter-spacing:1px;">▌ 主流程</div>
+    <div class="flow">
+      <div class="flow-node">
+        <div class="fn-icon">👤</div>
+        <div class="fn-name">客人咨询</div>
+        <div class="fn-sub">微信小程序</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:rgba(249,115,22,0.4)">
+        <div class="fn-icon">🍊</div>
+        <div class="fn-name">小橙</div>
+        <div class="fn-sub">需求采集</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:rgba(59,130,246,0.4)">
+        <div class="fn-icon">🗺️</div>
+        <div class="fn-name">小蓝</div>
+        <div class="fn-sub">行程生成</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:rgba(245,158,11,0.4)">
+        <div class="fn-icon">💰</div>
+        <div class="fn-name">小金</div>
+        <div class="fn-sub">比价报价</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">✅</div>
+        <div class="fn-name">确认下单</div>
+        <div class="fn-sub">人工审核</div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin:28px 0 20px;letter-spacing:1px;">▌ 出行&售后</div>
+    <div class="flow">
+      <div class="flow-node">
+        <div class="fn-icon">✅</div>
+        <div class="fn-name">订单确认</div>
+        <div class="fn-sub">下单成功</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:rgba(236,72,153,0.4)">
+        <div class="fn-icon">🌟</div>
+        <div class="fn-name">小暖</div>
+        <div class="fn-sub">出行提醒</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">✈️</div>
+        <div class="fn-name">旅途中</div>
+        <div class="fn-sub">安全守护</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">🏠</div>
+        <div class="fn-name">回程复盘</div>
+        <div class="fn-sub">采集反馈</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node" style="border-color:rgba(168,85,247,0.4)">
+        <div class="fn-icon">❤️</div>
+        <div class="fn-name">小心</div>
+        <div class="fn-sub">长期维护</div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin:28px 0 20px;letter-spacing:1px;">▌ 内部运营</div>
+    <div class="flow">
+      <div class="flow-node" style="border-color:rgba(34,197,94,0.4)">
+        <div class="fn-icon">📋</div>
+        <div class="fn-name">小绿</div>
+        <div class="fn-sub">运营汇报</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">📊</div>
+        <div class="fn-name">日/周报</div>
+        <div class="fn-sub">推送管理者</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">🔍</div>
+        <div class="fn-name">数据分析</div>
+        <div class="fn-sub">转化漏斗</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-icon">🎯</div>
+        <div class="fn-name">决策支持</div>
+        <div class="fn-sub">老板看板</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-icon">🦞</div>
+    <div class="callout-body">
+      <h4>龙虾（总指挥）在哪里？</h4>
+      <p>龙虾是整个系统的路由层，存在于每一个环节之中。它识别用户意图，决定调用哪个Agent，处理跨Agent的信息传递，并在出现异常时介入协调。对外不可见，对内无处不在。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== TECH ===== -->
+<div class="section" id="tech">
+  <div class="section-eyebrow">Technical Architecture</div>
+  <div class="section-title">技术架构</div>
+  <div class="section-sub">轻量化优先，快速落地。选用成熟技术栈，避免过度工程化。</div>
+
+  <div class="tech-layer">
+    <div class="tech-layer-name">🎨 前端层</div>
+    <div class="tech-tags">
+      <span class="tech-tag highlight">微信小程序</span>
+      <span class="tech-tag">原生WXML/WXSS</span>
+      <span class="tech-tag">微信云开发SDK</span>
+      <span class="tech-tag">WebSocket实时对话</span>
+      <span class="tech-tag">PDF预览组件</span>
+    </div>
+  </div>
+  <div class="tech-layer">
+    <div class="tech-layer-name">⚙️ Agent层</div>
+    <div class="tech-tags">
+      <span class="tech-tag highlight">多Agent编排框架</span>
+      <span class="tech-tag">大语言模型API</span>
+      <span class="tech-tag">Function Calling</span>
+      <span class="tech-tag">长上下文记忆</span>
+      <span class="tech-tag">角色人格注入</span>
+      <span class="tech-tag">任务路由逻辑</span>
+    </div>
+  </div>
+  <div class="tech-layer">
+    <div class="tech-layer-name">🗄️ 数据层</div>
+    <div class="tech-tags">
+      <span class="tech-tag highlight">微信云数据库</span>
+      <span class="tech-tag">客户档案存储</span>
+      <span class="tech-tag">目的地知识库</span>
+      <span class="tech-tag">行程模板库</span>
+      <span class="tech-tag">向量检索</span>
+    </div>
+  </div>
+  <div class="tech-layer">
+    <div class="tech-layer-name">🔗 集成层</div>
+    <div class="tech-tags">
+      <span class="tech-tag">供应商报价API</span>
+      <span class="tech-tag">酒店价格接口</span>
+      <span class="tech-tag">航班监控API</span>
+      <span class="tech-tag">地图服务</span>
+      <span class="tech-tag">天气预警推送</span>
+    </div>
+  </div>
+  <div class="tech-layer">
+    <div class="tech-layer-name">☁️ 基础设施</div>
+    <div class="tech-tags">
+      <span class="tech-tag highlight">微信云开发</span>
+      <span class="tech-tag">云函数</span>
+      <span class="tech-tag">对象存储COS</span>
+      <span class="tech-tag">消息推送服务</span>
+      <span class="tech-tag">日志监控</span>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px;">
+    <div class="callout-icon">🎯</div>
+    <div class="callout-body">
+      <h4>为什么选微信云开发？</h4>
+      <p>目标客户（中小旅行社）的客人100%在微信上。微信小程序零安装门槛，无需下载APP，微信内直接使用。云开发免去了服务器运维成本，适合初创阶段快速验证。等到规模化后，再迁移到独立服务器也不复杂。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== DATA ARCH ===== -->
+<div class="section" id="data">
+  <div class="section-eyebrow">Data Architecture</div>
+  <div class="section-title">数据架构</div>
+  <div class="section-sub">数据是OpenClaw的核心资产，尤其是客户关系数据——这是别人抢不走的护城河</div>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-icon">👤</div>
+      <h3>客户档案库</h3>
+      <p>每位客人的完整画像：基本信息、家庭构成、旅行偏好、特殊备注、消费习惯、情感记忆。小心的核心数据源。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗂️</div>
+      <h3>行程模板库</h3>
+      <p>按目的地、人群、主题分类的行程模板。小蓝的知识底座。持续扩充，越用越多，越多越准。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💹</div>
+      <h3>供应商价格库</h3>
+      <p>定期更新的供应商报价数据，含历史价格趋势。小金的比价依据。未来接入实时API后自动更新。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h3>目的地知识库</h3>
+      <p>全球目的地的实用信息：签证、气候、必去景点、当地禁忌、最佳旅游季节。Agent的百科全书。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>对话历史库</h3>
+      <p>所有Agent与客人的对话记录。既是客服记录，也是训练数据，还是情感记忆的原始材料。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <h3>运营数据库</h3>
+      <p>订单数据、转化漏斗、收入利润、Agent效率指标。小绿的数据来源，管理者的决策依据。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== MINI PROGRAM ===== -->
+<div class="section" id="mini">
+  <div class="section-eyebrow">WeChat Mini Program</div>
+  <div class="section-title">微信小程序端设计</div>
+  <div class="section-sub">客人端（C端）与旅行社端（B端）分开设计，面向不同用户不同需求</div>
+
+  <div class="two-col">
+    <div class="card" style="border-color:rgba(26,110,245,0.3)">
+      <h3>👤 客人端（C端小程序）</h3>
+      <p style="margin-bottom:16px;">客人通过旅行社分享的小程序码进入，完成需求采集、查看行程、确认报价、出行提醒、全程沟通。</p>
+      <div class="tag-row">
+        <span class="tag">AI对话采集</span>
+        <span class="tag">行程预览</span>
+        <span class="tag">报价确认</span>
+        <span class="tag">出行提醒</span>
+        <span class="tag">售后消息</span>
+        <span class="tag">生日祝福</span>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(255,107,43,0.3)">
+      <h3>🏢 旅行社端（B端管理后台）</h3>
+      <p style="margin-bottom:16px;">旅行社内部使用，查看订单状态、调整行程、审核报价、查看运营报告、管理客户档案。</p>
+      <div class="tag-row">
+        <span class="tag">订单管理</span>
+        <span class="tag">行程审核</span>
+        <span class="tag">报价管理</span>
+        <span class="tag">客户档案</span>
+        <span class="tag">运营看板</span>
+        <span class="tag">Agent监控</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px;">
+    <div class="callout-icon">📱</div>
+    <div class="callout-body">
+      <h4>为什么不做APP？</h4>
+      <p>目标客户群体（旅行社客人）没有安装新APP的意愿和习惯。微信小程序无需下载，扫码即用，零摩擦。旅行社端也可以通过微信小程序操作，没有学习成本。这是最适合初期快速验证的选择。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== COMPARE ===== -->
+<div class="section" id="compare">
+  <div class="section-eyebrow">Competitive Analysis</div>
+  <div class="section-title">竞品对比</div>
+  <div class="section-sub">市场上存在几类参照物，但OpenClaw走的是一条不同的路</div>
+
+  <div class="table-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>对比维度</th>
+          <th>OTA平台（携程/飞猪）</th>
+          <th>通用AI工具（GPT类）</th>
+          <th>旅游SaaS（传统）</th>
+          <th>OpenClaw</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>目标用户</td>
+          <td>C端个人旅客</td>
+          <td>泛行业</td>
+          <td>大中型旅行社</td>
+          <td class="td-good">中小旅游定制团队</td>
+        </tr>
+        <tr>
+          <td>AI程度</td>
+          <td class="td-ok">部分推荐功能</td>
+          <td class="td-good">强AI，但无行业知识</td>
+          <td class="td-bad">基本无AI</td>
+          <td class="td-good">多Agent，旅游垂直</td>
+        </tr>
+        <tr>
+          <td>行业专属</td>
+          <td class="td-bad">否</td>
+          <td class="td-bad">否</td>
+          <td class="td-ok">部分</td>
+          <td class="td-good">完全垂直旅游行业</td>
+        </tr>
+        <tr>
+          <td>关系维护能力</td>
+          <td class="td-bad">无（平台截流）</td>
+          <td class="td-bad">无</td>
+          <td class="td-bad">无</td>
+          <td class="td-good">核心能力（小心）</td>
+        </tr>
+        <tr>
+          <td>微信生态集成</td>
+          <td class="td-ok">有小程序</td>
+          <td class="td-bad">无</td>
+          <td class="td-bad">基本无</td>
+          <td class="td-good">原生微信小程序</td>
+        </tr>
+        <tr>
+          <td>上手门槛</td>
+          <td class="td-ok">中</td>
+          <td class="td-bad">高（需要会提示词）</td>
+          <td class="td-bad">高（IT部署+培训）</td>
+          <td class="td-good">极低（开箱即用）</td>
+        </tr>
+        <tr>
+          <td>客户归属</td>
+          <td class="td-bad">平台所有</td>
+          <td class="td-ok">中立</td>
+          <td class="td-ok">旅行社所有</td>
+          <td class="td-good">旅行社完全拥有</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:24px;">
+    <div class="callout-icon">🎯</div>
+    <div class="callout-body">
+      <h4>OpenClaw的差异化路径</h4>
+      <p>OTA的本质是「截流」——客人通过平台找旅行社，平台拥有数据。OpenClaw是「还流」——帮旅行社建立自己的私域关系，数据属于旅行社，关系属于旅行社，客人也属于旅行社。这是完全不同的商业逻辑。</p>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== BIZ MODEL ===== -->
+<div class="section" id="bizmodel">
+  <div class="section-eyebrow">Business Model</div>
+  <div class="section-title">商业模式</div>
+  <div class="section-sub">SaaS订阅为主，增值服务为辅。轻资产，可规模化，随客户增长而增长。</div>
+
+  <div class="biz-grid">
+    <div class="biz-card">
+      <h3>🌱 基础版</h3>
+      <div class="price">¥999<span style="font-size:14px;color:var(--muted);font-weight:400;">/月</span></div>
+      <p>小橙+小蓝+小金三大核心Agent。适合1-3人的小型定制团队，验证AI效率价值。月处理订单上限50单。</p>
+      <div class="tag-row" style="margin-top:12px;">
+        <span class="tag">需求采集</span>
+        <span class="tag">行程生成</span>
+        <span class="tag">比价报价</span>
+      </div>
+    </div>
+    <div class="biz-card">
+      <h3>🚀 专业版</h3>
+      <div class="price">¥2,999<span style="font-size:14px;color:var(--muted);font-weight:400;">/月</span></div>
+      <p>七大Agent全开放，含小暖和小心。适合5-10人团队，追求全链路效率+客户关系。无订单量上限。</p>
+      <div class="tag-row" style="margin-top:12px;">
+        <span class="tag">全部7个Agent</span>
+        <span class="tag">售后管家</span>
+        <span class="tag">情感维护</span>
+      </div>
+    </div>
+    <div class="biz-card">
+      <h3>🏢 企业版</h3>
+      <div class="price">定制<span style="font-size:14px;color:var(--muted);font-weight:400;"> 起步¥9,999/月</span></div>
+      <p>适合传统旅行社（门店20家以上）。含专属部署、数据迁移、员工培训、专属客服。支持多品牌管理。</p>
+      <div class="tag-row" style="margin-top:12px;">
+        <span class="tag">专属部署</span>
+        <span class="tag">定制开发</span>
+        <span class="tag">专属支持</span>
+      </div>
+    </div>
+    <div class="biz-card">
+      <h3>💎 增值服务</h3>
+      <div class="price" style="font-size:20px;">多元化收入</div>
+      <p>供应商接入费（地接社/酒店付费接入平台比价系统）；行程模板库授权；数据分析报告；培训服务。</p>
+      <div class="tag-row" style="margin-top:12px;">
+        <span class="tag">供应商接入费</span>
+        <span class="tag">模板授权</span>
+        <span class="tag">数据服务</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== ROADMAP ===== -->
+<div class="section" id="roadmap">
+  <div class="section-eyebrow">Go-to-Market Roadmap</div>
+  <div class="section-title">落地路线</div>
+  <div class="section-sub">三个阶段，每个阶段有清晰的目标、里程碑和成功标准</div>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-num">PHASE 1</div>
+      <h3>验证核心价值</h3>
+      <div class="phase-time">0-3 个月</div>
+      <div class="phase-goal">核心目标：<span>3-5家种子用户，验证"10分钟需求采集"</span></div>
+      <ul class="phase-list">
+        <li>微信小程序AI需求采集上线</li>
+        <li>行程生成MVP版本</li>
+        <li>人工辅助比价（暂不接API）</li>
+        <li>招募3-5家愿意试用的定制团队</li>
+        <li>收集真实使用反馈，快速迭代</li>
+        <li>目标：NPS≥50，续费意愿≥80%</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">PHASE 2</div>
+      <h3>全链路闭环</h3>
+      <div class="phase-time">3-6 个月</div>
+      <div class="phase-goal">核心目标：<span>打通需求→行程→报价→售后全链路</span></div>
+      <ul class="phase-list">
+        <li>供应商API接入自动比价</li>
+        <li>小暖售后管家功能上线</li>
+        <li>小心关系维护基础版</li>
+        <li>扩展至20-30家付费用户</li>
+        <li>SaaS付费模式完整验证</li>
+        <li>目标：月均ARR突破10万</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">PHASE 3</div>
+      <h3>规模化复制</h3>
+      <div class="phase-time">6-12 个月</div>
+      <div class="phase-goal">核心目标：<span>100+付费旅行社，建立品类地位</span></div>
+      <ul class="phase-list">
+        <li>情感伴侣Layer完整上线</li>
+        <li>营业部B端SaaS版本</li>
+        <li>目的地数据库持续扩充</li>
+        <li>供应商平台生态建设</li>
+        <li>探索批发商OP替代方案</li>
+        <li>目标：月均ARR突破100万</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== RISK ===== -->
+<div class="section" id="risk">
+  <div class="section-eyebrow">Risk Assessment</div>
+  <div class="section-title">风险清单</div>
+  <div class="section-sub">诚实面对风险，比假装没有风险更重要。每个风险都有对应的应对策略。</div>
+
+  <div class="risk-list">
+    <div class="risk-item">
+      <div class="risk-level risk-high">高风险</div>
+      <div>
+        <h4>AI幻觉与输出质量</h4>
+        <p>行程生成或报价计算出现错误，导致客诉或经济损失</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：人工审核环节不可省略；关键数据（价格、签证）双重校验；建立错误报告机制快速修复</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-level risk-high">高风险</div>
+      <div>
+        <h4>旅行社付费意愿不足</h4>
+        <p>目标客户习惯用免费工具，对SaaS订阅有抵触</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：Phase 1免费试用，先让他们感受价值；按效率提升换算ROI，帮他们算清楚帐</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-level risk-mid">中风险</div>
+      <div>
+        <h4>供应商API接入困难</h4>
+        <p>地接社和供应商技术能力弱，无法提供规范API</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：Phase 1先用人工录入+半自动方式过渡；与有API能力的中大型供应商优先合作</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-level risk-mid">中风险</div>
+      <div>
+        <h4>大厂竞争入场</h4>
+        <p>携程、飞猪、阿里等平台推出类似AI功能</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：大厂是C端平台逻辑，OpenClaw是B端赋能逻辑；小心的关系资产是大厂无法复制的；提前建立用户粘性</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-level risk-mid">中风险</div>
+      <div>
+        <h4>数据安全与隐私合规</h4>
+        <p>客户档案数据涉及个人隐私，监管风险</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：严格遵守个人信息保护法；数据加密存储；旅行社数据完全隔离；明确告知客人数据使用方式</p>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-level risk-low">低风险</div>
+      <div>
+        <h4>微信生态依赖</h4>
+        <p>微信政策调整影响小程序功能或推广</p>
+      </div>
+      <div>
+        <p style="color:var(--teal);font-size:13px;">应对：遵守平台规则，避免违规操作；中长期规划独立APP版本作为备选</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div" />
+
+<!-- ===== GLOSSARY ===== -->
+<div class="section" id="glossary">
+  <div class="section-eyebrow">Glossary</div>
+  <div class="section-title">术语表</div>
+  <div class="section-sub">本文档中使用的专有术语与定义</div>
+
+  <div class="table-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr><th>术语</th><th>含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>OpenClaw</td><td>智途AI产品的英文名，寓意"开放的智慧之爪（龙虾钳）"，象征AI精准抓取旅游行业价值</td></tr>
+        <tr><td>Agent</td><td>具有独立人格、职责范围、话术风格的AI角色单元，可独立执行任务，也可协作配合</td></tr>
+        <tr><td>Layer</td><td>七层AI能力矩阵中的一层，代表OpenClaw的一种核心能力，从L1效率到L7情感逐层递进</td></tr>
+        <tr><td>定制团队</td><td>专门从事旅游定制业务的小型团队，通常3-10人，提供个性化旅游方案服务</td></tr>
+        <tr><td>地接社</td><td>目的地当地的旅游服务供应商，负责接待、导游、酒店、景点等具体服务</td></tr>
+        <tr><td>操作OP</td><td>旅行社负责订单操作执行的岗位，包括下单、确认、发单、跟进等工作</td></tr>
+        <tr><td>需求档案</td><td>小橙完成采集后输出的标准化客人需求文档，包含出行人数、时间、预算、偏好等完整信息</td></tr>
+        <tr><td>情感记忆</td><td>小心存储的客人情感相关信息，包括旅行故事、生活节点、偏好细节等，构成关系的基础</td></tr>
+        <tr><td>ARR</td><td>年度经常性收入（Annual Recurring Revenue），SaaS产品的核心收入指标</td></tr>
+        <tr><td>NPS</td><td>净推荐值（Net Promoter Score），衡量用户满意度和推荐意愿的指标，≥50为优秀</td></tr>
+        <tr><td>私域</td><td>旅行社自己拥有的客户关系和沟通渠道，与OTA平台的"公域"相对</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== BOTTOM CTA ===== -->
+<div class="cta-section">
+  <h2>OpenClaw · 智途AI</h2>
+  <p>让每一家旅行社都拥有自己的AI团队<br/>从今天开始，把重复的工作交给AI，把客人的心交给小心</p>
+  <a href="index.html" class="btn btn-primary">返回首页</a>
+  <a href="features.html" class="btn btn-ghost">功能介绍</a>
+  <a href="xiaoxin_soul.html" class="btn btn-ghost">小心灵魂说明书</a>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+  // Sidebar active state on scroll
+  const sections = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.sidebar a[href^="#"]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
