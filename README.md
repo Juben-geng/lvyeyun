@@ -174,12 +174,20 @@ curl http://localhost:3000/agents
 
 ## ☁️ 部署到 Vercel
 
-1. 代码推到 GitHub（`lvyeyun` 仓库）
-2. 打开 [vercel.com/new](https://vercel.com/new) → 导入仓库
-3. 填入3个环境变量（`LLM_API_KEY` / `SUPABASE_URL` / `SUPABASE_SERVICE_KEY`）
-4. 点 **Deploy** → 几分钟后上线
+1. 打开 [vercel.com/new](https://vercel.com/new) → 选 `lvyeyun` 仓库
+2. Environment Variables 只填这3个：
 
-访问地址：`https://lvyeyun.vercel.app`
+| Key | Value |
+|-----|-------|
+| `LLM_API_KEY` | `demo`（演示模式，可先不接真实AI） |
+| `SUPABASE_URL` | 你的 Supabase Project URL |
+| `SUPABASE_SERVICE_KEY` | 你的 Supabase service_role key |
+
+3. 点 **Deploy** → 完成 🚀
+
+验证：打开 `https://lvyeyun.vercel.app/status` 返回 `{"status":"ok"}` = 成功
+
+> 💡 没有 Supabase 也能部署，系统自动降级内存模式，所有功能照常演示。
 
 ---
 
