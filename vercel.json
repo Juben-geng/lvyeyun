@@ -1,39 +1,13 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
+    { "src": "index.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/(index|features|xiaoxin_soul|fullstack)\\.html",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "/status",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/agents",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/chat",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/agent/(.*)",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/session/(.*)",
-      "dest": "/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+    { "src": "/status", "dest": "/index.js" },
+    { "src": "/agents", "dest": "/index.js" },
+    { "src": "/chat", "dest": "/index.js" },
+    { "src": "/agent/(.*)", "dest": "/index.js" },
+    { "src": "/session/(.*)", "dest": "/index.js" }
   ]
 }
