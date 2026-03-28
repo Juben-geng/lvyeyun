@@ -48,6 +48,13 @@ export const cmsApi = {
   getPage: (id: string) => api.get(`/cms/pages/${id}`)
 }
 
+export const itineraryApi = {
+  list: () => api.get('/itinerary'),
+  create: (data: any) => api.post('/itinerary', data),
+  update: (id: string, data: any) => api.put(`/itinerary/${id}`, data),
+  delete: (id: string) => api.delete(`/itinerary/${id}`)
+}
+
 export const miniappApi = {
   getInfo: () => api.get('/miniapp/info'),
   chat: (message: string, sessionId?: string) =>
