@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="user-card" wx:if="{{userInfo}}">
+    <view class="avatar-area">
+      <text class="avatar-text">🦞</text>
+    </view>
+    <text class="user-name">{{userInfo.name}}</text>
+    <text class="user-email">{{userInfo.email}}</text>
+    <view class="member-badge">
+      <text>{{userInfo.role === 'admin' ? '管理员' : userInfo.membership === 'gold' ? '金牌会员' : '免费会员'}}</text>
+    </view>
+  </view>
+  <view class="login-card" wx:else bindtap="goLogin">
+    <text class="login-text">点击登录</text>
+  </view>
+
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goItinerary">
+      <text class="menu-icon">🗺️</text>
+      <text class="menu-label">我的行程</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item">
+      <text class="menu-icon">💰</text>
+      <text class="menu-label">我的订单</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item">
+      <text class="menu-icon">❤️</text>
+      <text class="menu-label">收藏</text>
+      <text class="menu-arrow">></text>
+    </view>
+    <view class="menu-item">
+      <text class="menu-icon">⚙️</text>
+      <text class="menu-label">设置</text>
+      <text class="menu-arrow">></text>
+    </view>
+  </view>
+
+  <view class="logout-btn" wx:if="{{userInfo}}" bindtap="logout">
+    <text>退出登录</text>
+  </view>
+</view>

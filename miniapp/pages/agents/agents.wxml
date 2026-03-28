@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">🤖 AI助手团队</text>
+    <text class="header-desc">选择一个Agent开始对话</text>
+  </view>
+  <view class="agent-grid">
+    <view class="agent-card" wx:for="{{agents}}" wx:key="key" bindtap="goChat" data-key="{{item.key}}" data-emoji="{{item.emoji}}">
+      <view class="card-header">
+        <text class="agent-emoji">{{item.emoji}}</text>
+        <text class="agent-name">{{item.name}}</text>
+      </view>
+      <text class="agent-desc">{{item.role || 'AI助手'}}</text>
+      <view class="card-keys" wx:if="{{item.activationKeys}}">
+        <text class="key-tag" wx:for="{{item.activationKeys}}" wx:for-item="key" wx:key="*this" wx:if="{{index < 3}}">{{key}}</text>
+      </view>
+      <view class="card-arrow">></view>
+    </view>
+  </view>
+</view>

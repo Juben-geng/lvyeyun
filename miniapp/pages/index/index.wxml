@@ -1,0 +1,59 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 顶部横幅 -->
+  <view class="hero">
+    <view class="hero-content">
+      <text class="hero-icon">🦞</text>
+      <text class="hero-title">{{siteName}}</text>
+      <text class="hero-desc">七大AI Agent · 让旅行更简单</text>
+    </view>
+  </view>
+
+  <!-- 快速开始 -->
+  <view class="quick-start" bindtap="goChat">
+    <view class="start-btn">
+      <text class="start-icon">💬</text>
+      <text>开始AI对话</text>
+    </view>
+  </view>
+
+  <!-- 核心功能 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">核心功能</text>
+    </view>
+    <view class="feature-grid">
+      <view class="feature-card" wx:for="{{features}}" wx:key="title" bindtap="goChat" data-agent="{{item.title}}">
+        <view class="feature-icon" style="background: {{item.color}}20">
+          <text class="icon-text">{{item.icon}}</text>
+        </view>
+        <text class="feature-title">{{item.title}}</text>
+        <text class="feature-desc">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- AI助手列表 -->
+  <view class="section" wx:if="{{agents.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">AI助手团队</text>
+      <text class="section-more" bindtap="goAgents">查看全部 ></text>
+    </view>
+    <view class="agent-list">
+      <view class="agent-card" wx:for="{{agents}}" wx:key="key" bindtap="goChat" data-agent="{{item.key}}">
+        <text class="agent-emoji">{{item.emoji}}</text>
+        <view class="agent-info">
+          <text class="agent-name">{{item.name}}</text>
+          <text class="agent-role" wx:if="{{item.role}}">{{item.role}}</text>
+        </view>
+        <text class="agent-arrow">></text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer">
+    <text class="footer-text">© 2026 智途AI·旅业云</text>
+    <text class="footer-text">让旅行更简单</text>
+  </view>
+</view>

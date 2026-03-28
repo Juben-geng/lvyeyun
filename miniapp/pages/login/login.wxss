@@ -1,0 +1,11 @@
+.container { min-height: 100vh; background: #fff; display: flex; flex-direction: column; justify-content: center; padding: 80rpx; }
+.logo-area { display: flex; flex-direction: column; align-items: center; margin-bottom: 120rpx; }
+.logo-icon { font-size: 120rpx; margin-bottom: 24rpx; }
+.logo-title { font-size: 48rpx; font-weight: bold; color: #333; }
+.logo-desc { font-size: 28rpx; color: #999; margin-top: 12rpx; }
+.login-area { display: flex; flex-direction: column; gap: 24rpx; }
+.btn-wx { background: #07c160; color: #fff; border-radius: 12rpx; font-size: 34rpx; padding: 28rpx; border: none; }
+.btn-phone { background: #fff; color: #333; border-radius: 12rpx; font-size: 34rpx; padding: 28rpx; border: 2rpx solid #e5e5e5; }
+.agreement { text-align: center; margin-top: 60rpx; }
+.agree-text { font-size: 24rpx; color: #999; }
+.agree-link { font-size: 24rpx; color: #e74c3c; }

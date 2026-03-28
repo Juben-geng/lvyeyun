@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="logo-area">
+    <text class="logo-icon">🦞</text>
+    <text class="logo-title">智途AI·旅业云</text>
+    <text class="logo-desc">七大AI Agent · 让旅行更简单</text>
+  </view>
+
+  <view class="login-area">
+    <button class="btn-wx" bindtap="wxLogin" loading="{{loading}}">
+      微信一键登录
+    </button>
+    <button class="btn-phone" bindtap="phoneLogin">
+      手机号登录
+    </button>
+  </view>
+
+  <view class="agreement">
+    <text class="agree-text">登录即表示同意</text>
+    <text class="agree-link">《用户协议》</text>
+    <text class="agree-text">和</text>
+    <text class="agree-link">《隐私政策》</text>
+  </view>
+</view>

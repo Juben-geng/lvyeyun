@@ -1,0 +1,16 @@
+{
+  "description": "智途AI·旅业云 微信小程序",
+  "packOptions": { "ignore": [], "include": [] },
+  "setting": {
+    "bundle": false, "urlCheck": false, "es6": true, "postcss": true,
+    "compileHotReLoad": false, "minified": true, "newFeature": false,
+    "autoAudits": false, "uglifyFileName": false, "uploadWithSourceMap": true,
+    "nodeModules": false, "enhance": true, "showShadowRootInWxmlPanel": true,
+    "minifyWXSS": true, "minifyWXML": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.3.4",
+  "appid": "你的小程序AppID",
+  "projectname": "lvyeyun-miniapp",
+  "condition": {}
+}

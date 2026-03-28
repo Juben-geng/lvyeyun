@@ -1,19 +1,24 @@
 // db.js — Supabase 数据库操作层
 // 封装所有数据库操作，Agent直接调用
 
-const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// ─── 初始化 Supabase 客户端 ───────────────────
-const supabase = createClient(
-  process.env.SUPABASE_URL     || '',
-  process.env.SUPABASE_SERVICE_KEY || '',  // 用 service_role key，有完整权限
-);
+// ─── Supabase 初始化（可选，未配置时降级为内存模式）───
+const SUPABASE_URL = process.env.SUPABASE_URL || '';
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || '';
+const DB_ENABLED = !!(SUPABASE_URL && SUPABASE_KEY);
 
-const DB_ENABLED = !!(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY);
-
-if (!DB_ENABLED) {
-  console.warn('[DB] ⚠️  未配置 Supabase，数据库功能降级为内存模式');
+let supabase = null;
+if (DB_ENABLED) {
+  try {
+    const { createClient } = require('@supabase/supabase-js');
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log('[DB] ✅ Supabase 已连接');
+  } catch (err) {
+    console.warn('[DB] ⚠️ Supabase 初始化失败，降级为内存模式:', err.message);
+  }
+} else {
+  console.log('[DB] ℹ️ 未配置 Supabase，使用内存模式');
 }
 
 // ─────────────────────────────────────────────
